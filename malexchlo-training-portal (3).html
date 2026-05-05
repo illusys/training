@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Malexchlo Global — Training Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -47,6 +47,16 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+
+
+
+a, button, input { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, .course-card:focus-visible, .vcard:focus-visible, .role-chip:focus-visible {
+  outline: 3px solid rgba(28,117,187,.35);
+  outline-offset: 2px;
+}
+.main-wrap { width: min(100%, 1120px); margin-inline: auto; }
+
 button { cursor: pointer; font-family: var(--fb); border: none; background: none; }
 img { display: block; max-width: 100%; }
 .hidden { display: none !important; }
@@ -463,6 +473,15 @@ img { display: block; max-width: 100%; }
 .sf-logo { height: 30px; margin: 0 auto 12px; opacity: .85; }
 .sf-brand { color: var(--orange); font-weight: 800; }
 .sf-small { font-size: 11px; opacity: .35; margin-top: 8px; }
+
+
+
+a, button, input { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, .course-card:focus-visible, .vcard:focus-visible, .role-chip:focus-visible {
+  outline: 3px solid rgba(28,117,187,.35);
+  outline-offset: 2px;
+}
+.main-wrap { width: min(100%, 1120px); margin-inline: auto; }
 </style>
 </head>
 <body>
@@ -487,6 +506,7 @@ img { display: block; max-width: 100%; }
 <!-- ════════════════════════════════════════════
      PAGE 1 — HOME
 ════════════════════════════════════════════ -->
+<main class="main-wrap"></main>
 <div class="page active" id="page-home">
 
   <!-- Hero -->
@@ -591,7 +611,7 @@ img { display: block; max-width: 100%; }
 </div>
 
 <div class="toast" id="toast"><span id="toast-msg"></span></div>
-
+</main>
 <!-- ════════════════════════════════════════════
      DATA + LOGIC
 ════════════════════════════════════════════ -->
@@ -630,8 +650,8 @@ const COURSES = [
     tags:[{text:"7 Videos",cls:"b"},{text:"Beginner",cls:"g"},{text:"All Staff",cls:"o"}],
     barCls:"b",
     videos:[
-      {id:"em01",n:"01",title:"Getting Started: Logging into Zoho Mail",            desc:"Access Zoho Mail on web and mobile; understand the dashboard layout and key navigation.",        dur:"8 min",  lvl:"beginner",     url:P(0)},
-      {id:"em02",n:"02",title:"Composing, Replying & Forwarding Emails",            desc:"Write professional emails, reply to threads, forward messages with proper business etiquette.", dur:"10 min", lvl:"beginner",     url:P(1)},
+     {id:"em01",n:"01",title:"Getting Started: Logging into Zoho Mail",            desc:"Access Zoho Mail on web and mobile; understand the dashboard layout and key navigation.",        dur:"8 min",  lvl:"beginner",     url:"https://storage.googleapis.com/illusys-training-videos/Zoho%20Inventory/Zoho%20Mail%20All%20Users/Getting_Started_with_Zoho_Mail.mp4", ready:true},
+      {id:"em02",n:"02",title:"Composing, Replying & Forwarding Emails",            desc:"Write professional emails, reply to threads, forward messages with proper business etiquette.", dur:"10 min", lvl:"beginner",     url:"https://storage.googleapis.com/illusys-training-videos/Zoho%20Inventory/Zoho%20Mail%20All%20Users/Composing_replying_and_forwarding_emails/media/Composing_replying_and_forwarding_emails.mp4", ready:true},
       {id:"em03",n:"03",title:"Folders, Labels & Inbox Filters",                    desc:"Create folders, apply colour labels, and set automatic filters to keep your inbox tidy.",        dur:"12 min", lvl:"beginner",     url:P(2)},
       {id:"em04",n:"04",title:"Calendar: Scheduling & Inviting Attendees",          desc:"Book appointments, send meeting invites, manage Zoho Calendar alongside your email.",            dur:"10 min", lvl:"beginner",     url:P(3)},
       {id:"em05",n:"05",title:"Email Signatures & Out-of-Office Replies",           desc:"Set up your professional company signature and configure auto-responder messages.",               dur:"8 min",  lvl:"beginner",     url:P(4)},
@@ -793,11 +813,23 @@ const COURSES = [
 
 /* ── STATE ──────────────────────────────────────────────────── */
 let completed  = JSON.parse(localStorage.getItem('mglt4') || '[]');
+let watchStats = JSON.parse(localStorage.getItem('mglt4_watch') || '{}');
+let videoDurations = JSON.parse(localStorage.getItem('mglt4_video_durations') || '{}');
 let curRole    = 'all';
 let curCourse  = null;  // course object
 let curModalIdx = -1;
 const done  = id  => completed.includes(id);
 const save  = ()  => localStorage.setItem('mglt4', JSON.stringify(completed));
+const saveWatchStats = () => localStorage.setItem('mglt4_watch', JSON.stringify(watchStats));
+const saveVideoDurations = () => localStorage.setItem('mglt4_video_durations', JSON.stringify(videoDurations));
+const fmtTime = secs => {
+  const n = Number(secs);
+  if (!Number.isFinite(n) || n <= 0) return '—';
+  const h = Math.floor(n / 3600);
+  const m = Math.floor((n % 3600) / 60);
+  const s = Math.floor(n % 60);
+  return h ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
+};
 const allIds = () => COURSES.flatMap(c => c.videos.map(v => v.id));
 
 /* ── BOOT ───────────────────────────────────────────────────── */
@@ -829,7 +861,7 @@ function buildCourseCards() {
   grid.innerHTML = COURSES.map(c => {
     const pct = coursePct(c);
     const isComplete = pct === 100;
-    return `<div class="course-card" id="card-${c.id}" onclick="openCourse('${c.id}')">
+    return `<div class="course-card" tabindex="0" role="button" id="card-${c.id}" onclick="openCourse('${c.id}')">
       <div class="cc-banner" style="background:${c.banner}">
         <div class="cc-icon">${c.icon}</div>
         <div class="cc-prog-ring" id="ring-${c.id}">${pct}%</div>
@@ -905,7 +937,12 @@ function renderVideoList() {
   const list = document.getElementById('video-list');
   list.innerHTML = curCourse.videos.map((v, idx) => {
     const isDone = done(v.id);
-    return `<div class="vcard${isDone?' done-card':''}" onclick="openModal(${idx})">
+     const watched = watchStats[v.id] || 0;
+    const durSec = videoDurations[v.id] || 0;
+    const watchPct = durSec > 0 ? Math.min(100, Math.round((watched / durSec) * 100)) : 0;
+    const durText = durSec > 0 ? fmtTime(durSec) : v.dur;
+    return `<div class="vcard${isDone?' done-card':''}" tabindex="0" role="button" onclick="openModal(${idx})">
+    
       <div class="vcard-thumb">
         <div class="vcard-num">${v.n}</div>
         <div class="vcard-play">
@@ -919,7 +956,8 @@ function renderVideoList() {
         <div class="vcard-title">${v.title}</div>
         <div class="vcard-desc">${v.desc}</div>
         <div class="vcard-meta">
-          <span class="vcard-dur">⏱ ${v.dur}</span>
+           <span class="vcard-dur">⏱ ${durText}</span>
+          <span class="vcard-dur">📈 ${watchPct}% watched</span>
           <span class="vcard-level ${v.lvl}">${v.lvl}</span>
           ${!v.ready && !isDone ? '<span class="ph-tag">placeholder</span>' : ''}
         </div>
@@ -981,7 +1019,7 @@ function updateAll() {
 
 function resetAll() {
   if (confirm('Reset all progress across all courses? This cannot be undone.')) {
-    completed = []; save(); buildCourseCards(); updateAll();
+    completed = []; watchStats = {}; videoDurations = {}; save(); saveWatchStats(); saveVideoDurations(); buildCourseCards(); updateAll();
     toast('All progress has been reset.');
   }
 }
@@ -1003,13 +1041,48 @@ function paintModal(idx) {
   document.getElementById('m-desc').textContent  = v.desc;
 
   document.getElementById('m-player').innerHTML = v.url
-    ? `<iframe src="${v.url}" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe>`
+      ? (v.url.toLowerCase().endsWith('.mp4')
+      ? `<div><video id="training-video" controls playsinline preload="metadata" style="width:100%;height:100%;border:0;">
+          <source src="${v.url}" type="video/mp4">
+         </video>
+         <div style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--border);">
+           <div id="video-watch-status" style="font-size:12px;color:var(--ink3);font-weight:700;">Watched: 0% · Duration: --</div>
+           <a href="${v.url}" download class="btn-nav" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;width:auto;padding:0 12px;">⬇ Download</a>
+         </div></div>`
+      : `<iframe src="${v.url}" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe>`)
     : `<div class="coming-soon">
         <div class="cs-icon">🎬</div>
         <div class="cs-title">Video Coming Soon</div>
         <div class="cs-sub">This Camtasia recording is being prepared. Upload the finished video to Google Storage and update the url field to replace this screen.</div>
       </div>`;
-
+const vid = document.getElementById('training-video');
+  if (vid) {
+    const id = v.id;
+    const statusEl = document.getElementById('video-watch-status');
+    const updateStatus = () => {
+      const dur = Number.isFinite(vid.duration) ? vid.duration : (videoDurations[id] || 0);
+      const watched = watchStats[id] || 0;
+      const pct = dur > 0 ? Math.min(100, Math.round((watched / dur) * 100)) : 0;
+      statusEl.textContent = `Watched: ${pct}% · Duration: ${fmtTime(dur)}`;
+    };
+    vid.addEventListener('loadedmetadata', () => {
+      if (Number.isFinite(vid.duration) && vid.duration > 0) {
+        videoDurations[id] = Math.round(vid.duration);
+        saveVideoDurations();
+      }
+      updateStatus();
+      renderVideoList();
+    });
+    vid.addEventListener('timeupdate', () => {
+      const t = Math.floor(vid.currentTime || 0);
+      if ((watchStats[id] || 0) < t) {
+        watchStats[id] = t;
+        saveWatchStats();
+        updateStatus();
+      }
+    });
+    updateStatus();
+  }
   syncMark();
   document.getElementById('m-prev').disabled = idx === 0;
   document.getElementById('m-next').disabled = idx === curCourse.videos.length - 1;
@@ -1029,6 +1102,15 @@ function closeModal() {
 
 function closeBg(e) { if (e.target === document.getElementById('modal')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const target = e.target;
+  if (target.classList?.contains('course-card') || target.classList?.contains('vcard')) {
+    e.preventDefault();
+    target.click();
+  }
+});
 
 function markModal() {
   const id = curCourse?.videos[curModalIdx]?.id;
