@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malexchlo Global — Training Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────────── */
+:root {
+  --blue:     #1C75BB;
+  --blue-d:   #155d96;
+  --blue-xl:  #f0f7ff;
+  --blue-l:   #daeeff;
+  --orange:   #F05A28;
+  --orange-l: #fff2ec;
+  --green:    #1a9e72;
+  --green-l:  #e5f7f1;
+  --ink:      #1a1f2e;
+  --ink2:     #3a4355;
+  --ink3:     #637087;
+  --ink4:     #9aabb8;
+  --surface:  #f5f7fa;
+  --white:    #ffffff;
+  --border:   #e2e8f0;
+  --border2:  #ccd6e0;
+  --shadow1:  0 1px 4px rgba(26,31,46,.07);
+  --shadow2:  0 3px 12px rgba(26,31,46,.10);
+  --shadow3:  0 6px 28px rgba(26,31,46,.14);
+  --r:        10px;
+  --r2:       14px;
+  --r3:       20px;
+  --fh:       'Nunito', sans-serif;
+  --fb:       'Nunito Sans', sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--fb);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+
+button { cursor: pointer; font-family: var(--fb); border: none; background: none; }
+img { display: block; max-width: 100%; }
+.hidden { display: none !important; }
+
+/* ─────────────────────────────────────────────
+   TOPBAR
+───────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 300;
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  height: 54px;
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 10px;
+}
+.topbar-logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.topbar-logo img { height: 30px; }
+.topbar-sep { width: 1px; height: 18px; background: var(--border2); flex-shrink: 0; }
+.topbar-label {
+  font-family: var(--fh);
+  font-size: 12px; font-weight: 800;
+  color: var(--blue); letter-spacing: 0.06em;
+  text-transform: uppercase; flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.topbar-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700; color: var(--blue);
+  padding: 6px 10px; border-radius: var(--r);
+  background: var(--blue-xl); flex-shrink: 0;
+}
+.topbar-prog {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--blue-xl); border-radius: 999px;
+  padding: 5px 10px; flex-shrink: 0;
+  font-size: 12px; font-weight: 700; color: var(--blue);
+}
+.pbar { width: 44px; height: 5px; background: var(--blue-l); border-radius: 3px; overflow: hidden; }
+.pbar-f { height: 100%; background: var(--blue); border-radius: 3px; transition: width .5s; }
+
+/* ─────────────────────────────────────────────
+   PAGE SYSTEM
+───────────────────────────────────────────── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ─────────────────────────────────────────────
+   ══════════════  HOME PAGE  ══════════════
+───────────────────────────────────────────── */
+
+/* HERO */
+.hero {
+  background: linear-gradient(140deg, #061b30 0%, #0e3d6a 55%, #1C75BB 100%);
+  padding: 28px 16px 32px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,90,40,.25), transparent 70%);
+  pointer-events: none;
+}
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(240,90,40,.18); border: 1px solid rgba(240,90,40,.35);
+  color: #ffb59a; font-size: 11px; font-weight: 800; letter-spacing: .07em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 999px;
+  margin-bottom: 14px;
+}
+.hero h1 {
+  font-family: var(--fh);
+  font-size: 26px; font-weight: 900; color: #fff;
+  line-height: 1.22; margin-bottom: 10px;
+}
+.hero h1 span { color: var(--orange); }
+.hero-sub {
+  font-size: 13.5px; color: rgba(255,255,255,.65);
+  line-height: 1.6; margin-bottom: 22px; max-width: 480px;
+}
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--r2); overflow: hidden;
+}
+.hs { padding: 12px 6px; text-align: center; border-right: 1px solid rgba(255,255,255,.07); }
+.hs:last-child { border-right: none; }
+.hs-n { font-family: var(--fh); font-size: 22px; font-weight: 900; color: var(--orange); line-height: 1; }
+.hs-l { font-size: 10px; color: rgba(255,255,255,.5); margin-top: 3px; font-weight: 600; }
+
+/* PROGRESS SECTION */
+.home-section { padding: 20px 16px 0; }
+.sec-label {
+  font-size: 11px; font-weight: 800; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 5px;
+}
+.sec-title { font-family: var(--fh); font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 14px; }
+
+.overall-card {
+  background: var(--white); border-radius: var(--r2);
+  border: 1.5px solid var(--border);
+  padding: 16px; box-shadow: var(--shadow1); margin-bottom: 20px;
+}
+.oc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.oc-pct { font-family: var(--fh); font-size: 36px; font-weight: 900; color: var(--blue); line-height: 1; }
+.oc-label { font-size: 12px; color: var(--ink3); font-weight: 600; margin-top: 2px; }
+.btn-reset {
+  font-size: 12px; font-weight: 700; color: var(--ink3);
+  border: 1.5px solid var(--border2); border-radius: var(--r);
+  padding: 6px 12px; background: var(--surface);
+}
+.overall-bar { height: 8px; background: var(--blue-l); border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
+.overall-fill { height: 100%; background: linear-gradient(90deg,var(--blue),#4aaee8); border-radius: 4px; transition: width .6s; }
+
+.mod-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.mod-chips::-webkit-scrollbar { display: none; }
+.mod-chip {
+  flex-shrink: 0; background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 8px 10px; min-width: 100px;
+}
+.mc-name { font-size: 10.5px; font-weight: 700; color: var(--ink2); margin-bottom: 5px; line-height: 1.3; }
+.mc-bar { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; margin-bottom: 3px; }
+.mc-fill { height: 100%; border-radius: 2px; }
+.mc-fill.b { background: var(--blue); }
+.mc-fill.o { background: var(--orange); }
+.mc-pct { font-size: 10px; font-weight: 800; color: var(--ink3); }
+
+/* ROLE FILTER */
+.role-wrap { overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.role-wrap::-webkit-scrollbar { display: none; }
+.role-row { display: flex; gap: 8px; width: max-content; }
+.role-chip {
+  display: flex; align-items: center; gap: 5px;
+  padding: 8px 14px; border-radius: 999px;
+  border: 1.5px solid var(--border2);
+  background: var(--white); color: var(--ink3);
+  font-size: 13px; font-weight: 700;
+  white-space: nowrap; transition: all .15s;
+}
+.role-chip.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.role-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .55; }
+
+/* COURSE CARDS GRID */
+.courses-grid {
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 16px 16px 100px;
+}
+@media(min-width:600px) {
+  .courses-grid { display: grid; grid-template-columns: repeat(2,1fr); }
+}
+@media(min-width:960px) {
+  .courses-grid { grid-template-columns: repeat(3,1fr); }
+}
+
+.course-card {
+  background: var(--white); border-radius: var(--r2);
+  border: 1.5px solid var(--border);
+  overflow: hidden; box-shadow: var(--shadow1);
+  cursor: pointer; transition: box-shadow .2s, transform .15s;
+  display: flex; flex-direction: column;
+}
+.course-card:active { transform: scale(.985); box-shadow: var(--shadow2); }
+.course-card.filtered-out { display: none; }
+
+.cc-banner {
+  height: 90px; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.cc-icon { font-size: 38px; position: relative; z-index: 1; }
+.cc-prog-ring {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 11px; font-weight: 800; color: #fff;
+  background: rgba(0,0,0,.35); border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.cc-body { padding: 12px 14px 10px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.cc-title { font-family: var(--fh); font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+.cc-sub { font-size: 11.5px; color: var(--ink3); font-weight: 600; }
+.cc-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.cc-tag {
+  font-size: 10px; font-weight: 800; padding: 2px 8px;
+  border-radius: 4px; letter-spacing: .03em;
+}
+.cc-tag.b { background: var(--blue-xl); color: var(--blue); }
+.cc-tag.o { background: var(--orange-l); color: var(--orange); }
+.cc-tag.g { background: var(--green-l); color: var(--green); }
+.cc-count { font-size: 11px; font-weight: 600; color: var(--ink4); }
+
+.cc-footer {
+  padding: 10px 14px 12px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cc-prog-bar-wrap { flex: 1; }
+.cc-prog-label { font-size: 10px; font-weight: 700; color: var(--ink4); margin-bottom: 4px; }
+.cc-prog-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; width: 100%; }
+.cc-prog-fill { height: 100%; border-radius: 2px; transition: width .5s; }
+.cc-btn {
+  flex-shrink: 0; margin-left: 12px;
+  padding: 7px 14px; border-radius: var(--r);
+  background: var(--blue); color: #fff;
+  font-size: 12px; font-weight: 800; font-family: var(--fb);
+}
+.cc-btn.complete { background: var(--green); }
+
+/* ─────────────────────────────────────────────
+   ══════════════  COURSE PAGE  ══════════════
+───────────────────────────────────────────── */
+
+/* COURSE HERO */
+.course-hero {
+  padding: 20px 16px 0;
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+}
+.ch-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+.ch-title { font-family: var(--fh); font-size: 22px; font-weight: 900; color: var(--ink); line-height: 1.25; margin-bottom: 6px; }
+.ch-sub { font-size: 13px; color: var(--ink3); margin-bottom: 14px; line-height: 1.5; font-weight: 500; }
+.ch-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.ch-tag {
+  font-size: 10.5px; font-weight: 800; padding: 3px 10px;
+  border-radius: 999px; border: 1.5px solid;
+}
+
+/* COURSE PROGRESS BAR */
+.course-prog-wrap {
+  background: var(--white); padding: 14px 16px;
+  border-bottom: 1.5px solid var(--border);
+}
+.cpw-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.cpw-label { font-size: 13px; font-weight: 700; color: var(--ink2); }
+.cpw-pct { font-family: var(--fh); font-size: 18px; font-weight: 900; color: var(--blue); }
+.cpw-bar { height: 7px; background: var(--blue-l); border-radius: 4px; overflow: hidden; }
+.cpw-fill { height: 100%; background: linear-gradient(90deg,var(--blue),#4aaee8); border-radius: 4px; transition: width .5s; }
+
+/* VIDEO MODAL (bottom sheet) */
+.modal-bg {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(5,15,28,.88);
+  align-items: flex-end; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal-sheet {
+  background: var(--white); width: 100%; max-width: 680px;
+  border-radius: 20px 20px 0 0;
+  max-height: 95dvh; display: flex; flex-direction: column;
+  animation: sheetUp .28s ease;
+  overflow: hidden;
+}
+@keyframes sheetUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@media(min-width:640px) {
+  .modal-bg { align-items: center; }
+  .modal-sheet { border-radius: 16px; max-height: 90dvh; }
+}
+.modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 0; flex-shrink: 0; }
+@media(min-width:640px) { .modal-handle { display: none; } }
+.modal-hdr {
+  padding: 12px 14px 10px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 10px; flex-shrink: 0;
+}
+.modal-hdr-text { flex: 1; min-width: 0; }
+.modal-eyebrow { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--orange); margin-bottom: 2px; }
+.modal-title { font-family: var(--fh); font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+.modal-desc { font-size: 12px; color: var(--ink3); margin-top: 2px; line-height: 1.45; }
+.modal-x {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid var(--border2); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 14px; color: var(--ink3); flex-shrink: 0;
+}
+.modal-player { flex: 1; min-height: 0; background: #000; position: relative; }
+.modal-player iframe { width: 100%; height: 100%; min-height: 200px; border: none; display: block; }
+@media(min-width:480px) { .modal-player iframe { min-height: 300px; } }
+@media(min-width:640px) { .modal-player iframe { min-height: 380px; } }
+.coming-soon {
+  min-height: 200px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg,#061b30,#1C75BB);
+  color: #fff; text-align: center; padding: 28px 20px;
+}
+@media(min-width:480px) { .coming-soon { min-height: 280px; } }
+.cs-icon { font-size: 40px; }
+.cs-title { font-family: var(--fh); font-size: 18px; font-weight: 800; }
+.cs-sub { font-size: 12.5px; color: rgba(255,255,255,.6); max-width: 280px; line-height: 1.5; }
+.modal-ftr {
+  padding: 10px 14px 12px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap;
+}
+.btn-mark {
+  flex: 1; min-width: 130px; padding: 10px 16px;
+  border-radius: 999px; font-size: 13px; font-weight: 800; font-family: var(--fb);
+}
+.btn-mark.undone { background: var(--blue-xl); color: var(--blue); }
+.btn-mark.undone:active { background: var(--blue); color: #fff; }
+.btn-mark.done { background: var(--green-l); color: var(--green); }
+.modal-nav { display: flex; gap: 6px; flex-shrink: 0; }
+.btn-nav {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: var(--ink2); transition: all .15s;
+}
+.btn-nav:active:not(:disabled) { background: var(--blue-xl); color: var(--blue); border-color: var(--blue); }
+.btn-nav:disabled { opacity: .25; cursor: not-allowed; }
+
+/* VIDEO LIST */
+.video-list { padding: 12px 16px 100px; display: flex; flex-direction: column; gap: 10px; }
+
+.vcard {
+  background: var(--white); border-radius: var(--r2);
+  border: 1.5px solid var(--border); box-shadow: var(--shadow1);
+  overflow: hidden; cursor: pointer;
+  display: flex; transition: box-shadow .15s, border-color .15s;
+  position: relative;
+}
+.vcard::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--border); transition: background .2s;
+}
+.vcard.done-card::before { background: var(--green); }
+.vcard.done-card { background: #fafffe; border-color: rgba(26,158,114,.2); }
+.vcard:active { box-shadow: var(--shadow2); border-color: var(--blue-d); }
+
+.vcard-thumb {
+  width: 100px; flex-shrink: 0;
+  background: linear-gradient(135deg,#061b30,#0e3d6a);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; min-height: 72px;
+}
+@media(min-width:480px) { .vcard-thumb { width: 120px; } }
+.vcard-play {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(240,90,40,.9);
+  display: flex; align-items: center; justify-content: center;
+}
+.vcard-play svg { width: 16px; height: 16px; fill: #fff; margin-left: 2px; }
+.vcard-num {
+  position: absolute; top: 6px; left: 7px;
+  font-size: 10px; font-weight: 800; color: rgba(255,255,255,.38);
+}
+.vcard-badge {
+  position: absolute; top: 6px; right: 5px;
+  font-size: 9px; font-weight: 800; padding: 2px 5px; border-radius: 4px;
+}
+.vcard-badge.ready { background: rgba(240,90,40,.85); color: #fff; }
+.vcard-badge.ph    { background: rgba(255,255,255,.12); color: rgba(255,255,255,.55); }
+.vcard-badge.done  { background: rgba(26,158,114,.85); color: #fff; }
+
+.vcard-body {
+  flex: 1; padding: 11px 12px 10px;
+  display: flex; flex-direction: column; gap: 4px; min-width: 0;
+}
+.vcard-title { font-family: var(--fh); font-size: 13px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+.vcard-desc  { font-size: 11.5px; color: var(--ink3); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.vcard-meta  { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 3px; }
+.vcard-dur   { font-size: 10.5px; font-weight: 700; color: var(--ink4); }
+.vcard-level { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: .03em; }
+.vcard-level.beginner     { background: var(--green-l); color: var(--green); }
+.vcard-level.intermediate { background: #fff7eb; color: #a05000; }
+.vcard-level.advanced     { background: #fff0f0; color: #b52020; }
+.ph-tag { font-size: 9.5px; font-weight: 700; background: var(--blue-xl); color: var(--blue); padding: 2px 6px; border-radius: 4px; }
+
+.vcard-check {
+  flex-shrink: 0; align-self: flex-start; margin-top: 2px;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: transparent; transition: all .15s;
+}
+.vcard-check.done { background: var(--green); border-color: var(--green); color: #fff; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 999;
+  background: var(--ink); color: #fff;
+  padding: 9px 18px; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  white-space: nowrap; box-shadow: var(--shadow3);
+  display: none; align-items: center; gap: 6px;
+  max-width: 90vw; text-align: center;
+}
+.toast.show { display: flex; animation: toastPop .25s ease; }
+@keyframes toastPop { from { opacity:0; transform: translateX(-50%) translateY(8px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
+
+/* ─────────────────────────────────────────────
+   SEARCH BAR (home)
+───────────────────────────────────────────── */
+.search-bar-wrap {
+  padding: 14px 16px 0;
+}
+.search-inner {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1.5px solid var(--border2);
+  border-radius: 999px; padding: 9px 16px;
+}
+.search-inner:focus-within { border-color: var(--blue); }
+.search-inner input {
+  flex: 1; border: none; outline: none; background: none;
+  font-family: var(--fb); font-size: 14px; color: var(--ink);
+}
+.search-inner input::placeholder { color: var(--ink4); }
+.search-icon { font-size: 16px; opacity: .4; flex-shrink: 0; }
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+.site-footer {
+  background: #061b30; color: rgba(255,255,255,.55);
+  padding: 28px 16px 84px; text-align: center;
+}
+.sf-logo { height: 30px; margin: 0 auto 12px; opacity: .85; }
+.sf-brand { color: var(--orange); font-weight: 800; }
+.sf-small { font-size: 11px; opacity: .35; margin-top: 8px; }
+
+
+
+/* MOBILE RESPONSIVE PATCHES */
+@media (max-width: 640px) {
+  .topbar {
+    padding: 8px 10px;
+    height: auto;
+    min-height: 56px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .topbar-logo img { height: 26px; }
+  .topbar-sep { display: none; }
+  .topbar-label {
+    flex: 1 1 140px;
+    min-width: 0;
+    font-size: 11px;
+  }
+  .topbar-back { order: 3; }
+  .topbar-prog { margin-left: auto; }
+
+  .role-wrap { overflow-x: visible; }
+  .role-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .role-chip {
+    width: 100%;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .vcard {
+    flex-direction: column;
+  }
+  .vcard-thumb {
+    width: 100%;
+    min-height: 88px;
+  }
+  .vcard-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin-top: 0;
+    background: rgba(255,255,255,.92);
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     TOPBAR
+════════════════════════════════════════════ -->
+<nav class="topbar" id="topbar">
+  <div class="topbar-logo">
+    <img src="https://blog.illusys.com.ng/wp-content/uploads/2025/05/cropped-logo-1.png"
+         alt="iLLuSys" onerror="this.style.display='none'">
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-label" id="topbar-label">Training Portal</div>
+  <button class="topbar-back hidden" id="topbar-back" onclick="goHome()">← Back</button>
+  <div class="topbar-prog" id="topbar-prog">
+    <span id="nav-pct">0%</span>
+    <div class="pbar"><div class="pbar-f" id="nav-fill" style="width:0%"></div></div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     PAGE 1 — HOME
+════════════════════════════════════════════ -->
+<main class="main-wrap">
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-pill">⚡ iLLuSys LTD × Malexchlo Global Ltd</div>
+    <h1>Zoho Platform<br><span>Handover Training</span></h1>
+    <p class="hero-sub">Master Zoho Mail, Finance Plus Suite &amp; Commerce. Pick your course module below to get started.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">9</div><div class="hs-l">Courses</div></div>
+      <div class="hs"><div class="hs-n">57</div><div class="hs-l">Videos</div></div>
+      <div class="hs"><div class="hs-n">8</div><div class="hs-l">Roles</div></div>
+      <div class="hs"><div class="hs-n">14h</div><div class="hs-l">Content</div></div>
+    </div>
+  </section>
+
+  <!-- Overall Progress -->
+  <div class="home-section">
+    <div class="sec-label">Your Progress</div>
+    <div class="overall-card">
+      <div class="oc-top">
+        <div>
+          <div class="oc-pct" id="overall-pct">0%</div>
+          <div class="oc-label">Overall Completion</div>
+        </div>
+        <button class="btn-reset" onclick="resetAll()">Reset All</button>
+      </div>
+      <div class="overall-bar">
+        <div class="overall-fill" id="overall-fill" style="width:0%"></div>
+      </div>
+      <div class="mod-chips" id="mod-chips"></div>
+    </div>
+  </div>
+
+  <!-- Role Filter -->
+  <div class="home-section">
+    <div class="sec-label">Your Role</div>
+    <div class="sec-title">Filter courses by your position</div>
+    <div class="role-wrap"><div class="role-row" id="role-row"></div></div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar-wrap">
+    <div class="search-inner">
+      <span class="search-icon">🔍</span>
+      <input type="search" placeholder="Search course modules…" oninput="filterCourses(this.value)">
+    </div>
+  </div>
+
+  <!-- Course Cards -->
+  <div class="courses-grid" id="courses-grid"></div>
+
+  <footer class="site-footer">
+    <img src="https://blog.illusys.com.ng/wp-content/uploads/2026/01/logo_white.png"
+         alt="iLLuSys" class="sf-logo" onerror="this.style.display='none'">
+    <p>Developed by <span class="sf-brand">iLLuSys LTD</span> for Malexchlo Global Limited</p>
+    <p style="font-size:12px;margin-top:2px;"><a href="https://illusys.com.ng" style="color:rgba(255,255,255,.35)">illusys.com.ng</a> · Lagos, Nigeria</p>
+    <p class="sf-small">© 2026 iLLuSys LTD · Zoho® trademarks belong to Zoho Corporation</p>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 2 — COURSE DETAIL
+════════════════════════════════════════════ -->
+<div class="page" id="page-course">
+  <div class="course-hero">
+    <div class="ch-eyebrow" id="ch-eyebrow"></div>
+    <div class="ch-title"   id="ch-title"></div>
+    <div class="ch-sub"     id="ch-sub"></div>
+    <div class="ch-tags"    id="ch-tags"></div>
+  </div>
+  <div class="course-prog-wrap">
+    <div class="cpw-top">
+      <div class="cpw-label">Course Progress</div>
+      <div class="cpw-pct" id="cpw-pct">0%</div>
+    </div>
+    <div class="cpw-bar"><div class="cpw-fill" id="cpw-fill" style="width:0%"></div></div>
+  </div>
+  <div class="video-list" id="video-list"></div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-bg" id="modal" onclick="closeBg(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr">
+      <div class="modal-hdr-text">
+        <div class="modal-eyebrow" id="m-eye"></div>
+        <div class="modal-title"   id="m-title"></div>
+        <div class="modal-desc"    id="m-desc"></div>
+      </div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-player" id="m-player"></div>
+    <div class="modal-ftr">
+      <button class="btn-mark undone" id="m-mark" onclick="markModal()">✓ Mark as Complete</button>
+      <div class="modal-nav">
+        <button class="btn-nav" id="m-prev" onclick="navModal(-1)">‹</button>
+        <button class="btn-nav" id="m-next" onclick="navModal(1)">›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-msg"></span></div>
+</main>
+<!-- ════════════════════════════════════════════
+     DATA + LOGIC
+════════════════════════════════════════════ -->
+<script>
+/* ── PLACEHOLDER VIDEO URLS ──────────────────────────────────────
+   These two real Camtasia recordings are used as stand-ins for all
+   57 video slots. Replace the url: field per video as recordings
+   are uploaded to Google Storage.
+─────────────────────────────────────────────────────────────────*/
+const PA = "https://storage.googleapis.com/illusys-training-videos/Zoho%20Inventory/Zoho%20Inventory%20Training/Zoho%20Inventory%20Training.html";
+const PB = "https://storage.googleapis.com/illusys-training-videos/Zoho%20Inventory/Add%20Products%20in%20bulk/Adding%20Products%20In%20Bulk%20using%20spreadsheets/Adding%20Products%20In%20Bulk%20using%20spreadsheets.html";
+const P  = i => i % 2 === 0 ? PA : PB;
+const decodeEntities = (value = '') => {
+  const t = document.createElement('textarea');
+  t.innerHTML = value;
+  return t.value;
+};
+
+/* ── ROLES ───────────────────────────────────────────────────── */
+const ROLES = {
+  all:        { label:"All Roles",         icon:"⊞" },
+  allstaff:   { label:"All Staff",         icon:"👥" },
+  warehouse:  { label:"Warehouse Mgr",     icon:"🏭" },
+  inventory:  { label:"Inventory Mgr",     icon:"📦" },
+  crm:        { label:"CRM Manager",       icon:"🤝" },
+  accountant: { label:"Accountant",        icon:"📒" },
+  auditor:    { label:"Internal Auditor",  icon:"🔍" },
+  webmaster:  { label:"Web Master",        icon:"🌐" },
+  emailadmin: { label:"Email Admin",       icon:"⚙️" },
+};
+
+/* ── COURSE DATA ─────────────────────────────────────────────── */
+const COURSES = [
+  /* 1 ─────────────────────────────────────────────────────── */
+  {
+    id:"c1", icon:"📧",
+    banner:"linear-gradient(135deg,#061b30,#1C75BB)",
+    title:"Zoho Mail — General Use",
+    sub:"Foundational email skills every staff member needs from day one.",
+    forRoles:["allstaff","emailadmin","warehouse","inventory","crm","accountant","auditor","webmaster"],
+    tags:[{text:"7 Videos",cls:"b"},{text:"Beginner",cls:"g"},{text:"All Staff",cls:"o"}],
+    barCls:"b",
+    videos:[
+     {id:"em01",n:"01",title:"Getting Started: Logging into Zoho Mail",            desc:"Access Zoho Mail on web and mobile; understand the dashboard layout and key navigation.",        dur:"8 min",  lvl:"beginner",     url:"https://storage.googleapis.com/illusys-training-videos/Zoho%20Inventory/Zoho%20Mail%20All%20Users/Getting_Started_with_Zoho_Mail.mp4", ready:true},
+      {id:"em02",n:"02",title:"Composing, Replying & Forwarding Emails",            desc:"Write professional emails, reply to threads, forward messages with proper business etiquette.", dur:"10 min", lvl:"beginner",     url:"https://storage.googleapis.com/illusys-training-videos/Zoho%20Inventory/Zoho%20Mail%20All%20Users/Composing_replying_and_forwarding_emails/media/Composing_replying_and_forwarding_emails.mp4", ready:true},
+      {id:"em03",n:"03",title:"Folders, Labels & Inbox Filters",                    desc:"Create folders, apply colour labels, and set automatic filters to keep your inbox tidy.",        dur:"12 min", lvl:"beginner",     url:P(2)},
+      {id:"em04",n:"04",title:"Calendar: Scheduling & Inviting Attendees",          desc:"Book appointments, send meeting invites, manage Zoho Calendar alongside your email.",            dur:"10 min", lvl:"beginner",     url:P(3)},
+      {id:"em05",n:"05",title:"Email Signatures & Out-of-Office Replies",           desc:"Set up your professional company signature and configure auto-responder messages.",               dur:"8 min",  lvl:"beginner",     url:P(4)},
+      {id:"em06",n:"06",title:"Contacts, Address Book & Group Lists",               desc:"Add and manage contacts; create group email lists for department communications.",                dur:"9 min",  lvl:"beginner",     url:P(5)},
+      {id:"em07",n:"07",title:"Searching & Archiving Old Emails",                   desc:"Use advanced search to locate any email quickly; archive old correspondence safely.",             dur:"7 min",  lvl:"beginner",     url:P(6)},
+    ]
+  },
+  /* 2 ─────────────────────────────────────────────────────── */
+  {
+    id:"c2", icon:"⚙️",
+    banner:"linear-gradient(135deg,#2d1a00,#a04010)",
+    title:"Zoho Mail — Administration",
+    sub:"Full administrative control of the organisation's Zoho Mail environment.",
+    forRoles:["emailadmin"],
+    tags:[{text:"7 Videos",cls:"b"},{text:"Admin",cls:"o"},{text:"Email Admin",cls:"o"}],
+    barCls:"o",
+    videos:[
+      {id:"ea01",n:"01",title:"Admin Console: Full Orientation",                     desc:"Tour the admin dashboard — every panel section and your complete admin responsibilities.",      dur:"12 min", lvl:"intermediate", url:P(7)},
+      {id:"ea02",n:"02",title:"Adding & Managing Staff Email Accounts",              desc:"Create new accounts, assign roles, set passwords and configure permission levels.",              dur:"14 min", lvl:"intermediate", url:P(8)},
+      {id:"ea03",n:"03",title:"Domain & DNS Setup (MX, SPF, DKIM, DMARC)",          desc:"Verify your domain; configure all required DNS records for email deliverability and security.", dur:"18 min", lvl:"advanced",     url:P(9)},
+      {id:"ea04",n:"04",title:"Groups, Aliases & Shared Inboxes",                   desc:"Create team email groups, department aliases, and manage shared mailboxes.",                    dur:"13 min", lvl:"intermediate", url:P(10)},
+      {id:"ea05",n:"05",title:"Email Policies, 2FA & Security Settings",            desc:"Enforce password policies, two-factor authentication, spam filters and data retention rules.",   dur:"16 min", lvl:"advanced",     url:P(11)},
+      {id:"ea06",n:"06",title:"Monitoring Reports & Audit Logs",                    desc:"Review delivery logs, trace bounced emails, and audit all staff email activity.",               dur:"12 min", lvl:"advanced",     url:P(12)},
+      {id:"ea07",n:"07",title:"Backup, Migration & Account Offboarding",            desc:"Export mailboxes, manage departing staff, enforce data retention policies.",                    dur:"14 min", lvl:"advanced",     url:P(13)},
+    ]
+  },
+  /* 3 ─────────────────────────────────────────────────────── */
+  {
+    id:"c3", icon:"🛒",
+    banner:"linear-gradient(135deg,#052010,#0d6b35)",
+    title:"Zoho Commerce — Website & E-Commerce",
+    sub:"Manage the company's online storefront, product listings and customer orders.",
+    forRoles:["webmaster","crm","inventory"],
+    tags:[{text:"9 Videos",cls:"b"},{text:"Intermediate",cls:"o"},{text:"Webmaster · CRM · Inventory",cls:"g"}],
+    barCls:"b",
+    videos:[
+      {id:"zc01",n:"01",title:"Commerce Dashboard Orientation",                     desc:"Navigate the full Commerce dashboard; understand the complete store management interface.",     dur:"10 min", lvl:"beginner",     url:P(14)},
+      {id:"zc02",n:"02",title:"Adding & Managing Product Listings",                 desc:"Create product pages with images, descriptions, variants and pricing rules.",                   dur:"15 min", lvl:"intermediate", url:P(15)},
+      {id:"zc03",n:"03",title:"Product Categories & Featured Collections",          desc:"Organise products into categories; build featured collections and dedicated landing pages.",    dur:"11 min", lvl:"intermediate", url:P(16)},
+      {id:"zc04",n:"04",title:"Order Management & Fulfilment Workflow",             desc:"Process incoming orders, update status, and coordinate with Inventory for despatch.",          dur:"14 min", lvl:"intermediate", url:P(17)},
+      {id:"zc05",n:"05",title:"Payment Gateways & Checkout Configuration",          desc:"Review payment settings, checkout flow, and how to process customer refunds.",                  dur:"12 min", lvl:"intermediate", url:P(18)},
+      {id:"zc06",n:"06",title:"Website Pages, SEO & Content Management",            desc:"Edit web pages, manage SEO metadata, update banners and promotional content.",                 dur:"16 min", lvl:"intermediate", url:P(19)},
+      {id:"zc07",n:"07",title:"Customer Accounts & Reviews Management",             desc:"Manage customer registrations, moderate product reviews, and resolve account issues.",          dur:"10 min", lvl:"beginner",     url:P(20)},
+      {id:"zc08",n:"08",title:"Discount Codes, Promotions & Coupons",               desc:"Create promotional offers, discount codes, and configure time-limited sale events.",           dur:"11 min", lvl:"intermediate", url:P(21)},
+      {id:"zc09",n:"09",title:"Analytics & Store Performance Reports",              desc:"Read traffic, conversion, and revenue reports from the Commerce analytics panel.",              dur:"13 min", lvl:"intermediate", url:P(22)},
+    ]
+  },
+  /* 4 ─────────────────────────────────────────────────────── */
+  {
+    id:"c4", icon:"📦",
+    banner:"linear-gradient(135deg,#0a1a40,#1C75BB)",
+    title:"Zoho Inventory — Stock & Warehouse",
+    sub:"The backbone of all commercial activities — items, warehouses, orders and transfers.",
+    forRoles:["inventory","warehouse","accountant","auditor"],
+    tags:[{text:"10 Videos",cls:"b"},{text:"Intermediate",cls:"o"},{text:"Warehouse · Inventory · Accountant",cls:"b"}],
+    barCls:"b",
+    videos:[
+      {id:"zi01",n:"01",title:"Zoho Inventory Dashboard & Navigation",              desc:"Understand the interface, key metrics, and where to find every major function.",               dur:"10 min", lvl:"beginner",     url:PA, ready:true},
+      {id:"zi02",n:"02",title:"Item Master: Creating & Managing Products",           desc:"Add new items, set SKUs, units of measure, pricing, images and item groups.",                 dur:"14 min", lvl:"intermediate", url:PB, ready:true},
+      {id:"zi03",n:"03",title:"Warehouse Setup & Location Management",               desc:"Configure warehouses, zones, and bin locations for accurate physical stock tracking.",         dur:"13 min", lvl:"intermediate", url:P(25)},
+      {id:"zi04",n:"04",title:"Stock Adjustments & Opening Stock Entry",             desc:"Enter initial stock levels; perform adjustments for damages and counting discrepancies.",      dur:"12 min", lvl:"intermediate", url:P(26)},
+      {id:"zi05",n:"05",title:"Purchase Orders: Creating & Receiving Goods",         desc:"Raise purchase orders, receive goods from suppliers, handle partial deliveries correctly.",    dur:"15 min", lvl:"intermediate", url:P(27)},
+      {id:"zi06",n:"06",title:"Sales Orders & Pick / Pack / Ship Workflow",          desc:"Process sales orders, generate pick lists, packing slips and delivery orders.",               dur:"15 min", lvl:"intermediate", url:P(28)},
+      {id:"zi07",n:"07",title:"Inter-Warehouse Stock Transfers",                     desc:"Move stock between warehouse locations; track transfer status in real time.",                   dur:"11 min", lvl:"intermediate", url:P(29)},
+      {id:"zi08",n:"08",title:"Reorder Points & Low Stock Alerts",                   desc:"Set minimum stock thresholds; automate low-stock alerts and reorder triggers.",                dur:"10 min", lvl:"intermediate", url:P(30)},
+      {id:"zi09",n:"09",title:"Inventory Reports: Valuation & Movement History",     desc:"Generate and interpret stock summary, movement history, and valuation reports.",              dur:"13 min", lvl:"advanced",     url:P(31)},
+      {id:"zi10",n:"10",title:"Zoho Commerce ↔ Inventory Integration",              desc:"How online orders sync to Inventory; manage fulfilment status across both platforms.",         dur:"12 min", lvl:"advanced",     url:P(32)},
+    ]
+  },
+  /* 5 ─────────────────────────────────────────────────────── */
+  {
+    id:"c5", icon:"📒",
+    banner:"linear-gradient(135deg,#200a00,#a04010)",
+    title:"Zoho Books — Accounting",
+    sub:"Full double-entry accounting — from chart of accounts to financial statements.",
+    forRoles:["accountant","auditor"],
+    tags:[{text:"9 Videos",cls:"b"},{text:"Advanced",cls:"o"},{text:"Accountant · Auditor",cls:"o"}],
+    barCls:"o",
+    videos:[
+      {id:"zb01",n:"01",title:"Dashboard & Chart of Accounts Overview",              desc:"Navigate Zoho Books; understand the chart of accounts and the financial overview panel.",      dur:"14 min", lvl:"beginner",     url:P(33)},
+      {id:"zb02",n:"02",title:"Customers & Vendors: Setting Up Contacts",            desc:"Add and manage customer and supplier profiles with payment terms and credit limits.",          dur:"10 min", lvl:"beginner",     url:P(34)},
+      {id:"zb03",n:"03",title:"Creating & Sending Sales Invoices",                   desc:"Raise invoices, apply taxes, send to customers, and record payments received.",                dur:"14 min", lvl:"intermediate", url:P(35)},
+      {id:"zb04",n:"04",title:"Managing Bills & Supplier Payments",                  desc:"Enter supplier bills, schedule payments, record settlements, manage aged payables.",           dur:"13 min", lvl:"intermediate", url:P(36)},
+      {id:"zb05",n:"05",title:"Bank & Cash Reconciliation",                          desc:"Connect bank accounts, import statements, and perform monthly bank reconciliation.",           dur:"16 min", lvl:"advanced",     url:P(37)},
+      {id:"zb06",n:"06",title:"Journal Entries & Manual Transactions",               desc:"Post manual journals for adjustments, accruals, and period-end corrections.",                  dur:"12 min", lvl:"advanced",     url:P(38)},
+      {id:"zb07",n:"07",title:"Nigerian Tax: VAT & Withholding Tax (WHT)",           desc:"Configure Nigerian VAT and WHT rates; generate tax summary reports for FIRS filing.",         dur:"14 min", lvl:"advanced",     url:P(39)},
+      {id:"zb08",n:"08",title:"P&L, Balance Sheet & Trial Balance Reports",          desc:"Generate and interpret the three core financial statements for management reporting.",          dur:"15 min", lvl:"advanced",     url:P(40)},
+      {id:"zb09",n:"09",title:"Budgeting & Budget vs Actuals Analysis",              desc:"Set annual budgets by department; compare against actuals and investigate variances.",         dur:"12 min", lvl:"advanced",     url:P(41)},
+    ]
+  },
+  /* 6 ─────────────────────────────────────────────────────── */
+  {
+    id:"c6", icon:"🧾",
+    banner:"linear-gradient(135deg,#052018,#0d8050)",
+    title:"Zoho Expense — Expense Management",
+    sub:"Capture, submit, approve and track all company expenditure with a full audit trail.",
+    forRoles:["accountant","auditor","warehouse","inventory","crm","webmaster","allstaff"],
+    tags:[{text:"5 Videos",cls:"b"},{text:"Beginner–Intermediate",cls:"g"},{text:"All Roles",cls:"o"}],
+    barCls:"b",
+    videos:[
+      {id:"ze01",n:"01",title:"Submitting an Expense Claim: Staff Guide",            desc:"Record expenses, photograph receipts, assign categories and submit for approval.",            dur:"9 min",  lvl:"beginner",     url:P(42)},
+      {id:"ze02",n:"02",title:"Expense Categories, Policies & Approvals",            desc:"Set up expense categories, define spend policies, configure multi-level approval workflows.", dur:"12 min", lvl:"intermediate", url:P(43)},
+      {id:"ze03",n:"03",title:"Mileage Claims & Per Diem Allowances",                desc:"Log business travel expenses, mileage, and daily allowances correctly and compliantly.",      dur:"9 min",  lvl:"beginner",     url:P(44)},
+      {id:"ze04",n:"04",title:"Expense Reports & Staff Reimbursements",              desc:"Compile monthly expense reports, process reimbursements, and sync entries to Zoho Books.",    dur:"11 min", lvl:"intermediate", url:P(45)},
+      {id:"ze05",n:"05",title:"Auditing Expense Reports & Flagging Violations",      desc:"Review submitted expenses as auditor; flag policy violations; request staff corrections.",    dur:"11 min", lvl:"intermediate", url:P(46)},
+    ]
+  },
+  /* 7 ─────────────────────────────────────────────────────── */
+  {
+    id:"c7", icon:"💳",
+    banner:"linear-gradient(135deg,#0a0a30,#2c2ca0)",
+    title:"Zoho Billing, Invoice & Checkout",
+    sub:"Subscription billing, professional invoicing and hosted checkout configuration.",
+    forRoles:["accountant","crm","webmaster"],
+    tags:[{text:"5 Videos",cls:"b"},{text:"Intermediate",cls:"o"},{text:"Accountant · CRM · Webmaster",cls:"b"}],
+    barCls:"b",
+    videos:[
+      {id:"bi01",n:"01",title:"Zoho Invoice: Professional Invoice Templates",        desc:"Design branded invoice templates; add your logo; set up recurring invoices for repeat clients.", dur:"12 min", lvl:"intermediate", url:P(47)},
+      {id:"bi02",n:"02",title:"Zoho Billing: Subscriptions & Recurring Plans",       desc:"Set up subscription products, billing cycles, plan upgrades and cancellation flows.",          dur:"14 min", lvl:"intermediate", url:P(48)},
+      {id:"bi03",n:"03",title:"Zoho Checkout: Hosted Payment Pages",                 desc:"Create payment pages, embed checkout links in emails and on the website; test transactions.",  dur:"11 min", lvl:"intermediate", url:P(49)},
+      {id:"bi04",n:"04",title:"Receipts, Refunds & Credit Notes",                    desc:"Issue payment receipts automatically; process refunds; apply credit notes to customer accounts.", dur:"10 min", lvl:"intermediate", url:P(50)},
+      {id:"bi05",n:"05",title:"Billing Reports & Revenue Reconciliation",             desc:"Generate billing analytics; reconcile with Zoho Books for accurate financial records.",         dur:"12 min", lvl:"advanced",     url:P(51)},
+    ]
+  },
+  /* 8 ─────────────────────────────────────────────────────── */
+  {
+    id:"c8", icon:"🔗",
+    banner:"linear-gradient(135deg,#1a0a00,#7a3010)",
+    title:"Cross-Platform Integration & Admin",
+    sub:"How all Zoho apps communicate — and how to manage the complete platform.",
+    forRoles:["webmaster","accountant","emailadmin","auditor"],
+    tags:[{text:"5 Videos",cls:"b"},{text:"Advanced",cls:"o"},{text:"Webmaster · Accountant · Email Admin",cls:"b"}],
+    barCls:"o",
+    videos:[
+      {id:"in01",n:"01",title:"Zoho Finance Plus: Unified Platform Overview",        desc:"How Commerce, Inventory, Books, Expense, Billing and Mail integrate end-to-end.",             dur:"14 min", lvl:"intermediate", url:P(52)},
+      {id:"in02",n:"02",title:"User Roles, Permissions & Access Control",            desc:"Manage staff access rights across all Zoho apps from the central admin console.",              dur:"13 min", lvl:"advanced",     url:P(53)},
+      {id:"in03",n:"03",title:"Workflow Automation with Zoho Flow",                  desc:"Build automated triggers between apps — e.g., new order created → invoice generated instantly.", dur:"16 min", lvl:"advanced",     url:P(54)},
+      {id:"in04",n:"04",title:"Data Backup, Export & Platform Security",             desc:"Understand backup strategy, schedule data exports, and apply overall security best practices.", dur:"12 min", lvl:"advanced",     url:P(55)},
+      {id:"in05",n:"05",title:"Troubleshooting Common Platform Issues",              desc:"Diagnose sync errors, resolve integration problems, and how to escalate to Zoho support.",     dur:"14 min", lvl:"advanced",     url:P(56)},
+    ]
+  },
+  /* 9 ─────────────────────────────────────────────────────── */
+  {
+    id:"c9", icon:"🔍",
+    banner:"linear-gradient(135deg,#0a0a0a,#3a3a60)",
+    title:"Internal Auditor — Controls & Reporting",
+    sub:"Audit-specific workflows across all Zoho Finance modules — your complete oversight toolkit.",
+    forRoles:["auditor"],
+    tags:[{text:"4 Videos",cls:"b"},{text:"Advanced",cls:"o"},{text:"Internal Auditor",cls:"o"}],
+    barCls:"o",
+    videos:[
+      {id:"au01",n:"01",title:"Auditor's Guide to Zoho Finance: Full Overview",      desc:"Orientation to every audit-relevant feature across Books, Inventory, Expense and Billing.",    dur:"12 min", lvl:"intermediate", url:P(57)},
+      {id:"au02",n:"02",title:"Audit Trails: Tracking Changes Across All Modules",   desc:"Access change logs, user activity reports, and full transactional audit trails in real time.", dur:"13 min", lvl:"advanced",     url:P(58)},
+      {id:"au03",n:"03",title:"Reconciliation Reports & Variance Analysis",           desc:"Cross-check Inventory, Sales, and Books data to identify and investigate discrepancies.",       dur:"14 min", lvl:"advanced",     url:P(59)},
+      {id:"au04",n:"04",title:"Generating Audit-Ready Financial Reports",             desc:"Extract P&L, Balance Sheet, and ledger reports in the format required for internal audit.",    dur:"12 min", lvl:"advanced",     url:P(60)},
+    ]
+  },
+];
+
+/* ── STATE ──────────────────────────────────────────────────── */
+let completed  = JSON.parse(localStorage.getItem('mglt4') || '[]');
+let watchStats = JSON.parse(localStorage.getItem('mglt4_watch') || '{}');
+let videoDurations = JSON.parse(localStorage.getItem('mglt4_video_durations') || '{}');
+let curRole    = 'all';
+let curCourse  = null;  // course object
+let curModalIdx = -1;
+const done  = id  => completed.includes(id);
+const save  = ()  => localStorage.setItem('mglt4', JSON.stringify(completed));
+const saveWatchStats = () => localStorage.setItem('mglt4_watch', JSON.stringify(watchStats));
+const saveVideoDurations = () => localStorage.setItem('mglt4_video_durations', JSON.stringify(videoDurations));
+const fmtTime = secs => {
+  const n = Number(secs);
+  if (!Number.isFinite(n) || n <= 0) return '—';
+  const h = Math.floor(n / 3600);
+  const m = Math.floor((n % 3600) / 60);
+  const s = Math.floor(n % 60);
+  return h ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
+};
+const allIds = () => COURSES.flatMap(c => c.videos.map(v => v.id));
+
+/* ── BOOT ───────────────────────────────────────────────────── */
+buildRoles();
+buildCourseCards();
+updateAll();
+
+/* ── ROLE BUTTONS ───────────────────────────────────────────── */
+function buildRoles() {
+  const row = document.getElementById('role-row');
+  row.innerHTML = Object.entries(ROLES).map(([k,v]) =>
+    `<button class="role-chip${k==='all'?' active':''}" onclick="setRole('${k}',this)">
+      <span class="dot"></span>${v.icon} ${v.label}
+    </button>`
+  ).join('');
+}
+
+function setRole(r, btn) {
+  curRole = r;
+  document.querySelectorAll('.role-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCourses('');
+  document.querySelector('.search-inner input').value = '';
+}
+
+/* ── COURSE CARDS ───────────────────────────────────────────── */
+function buildCourseCards() {
+  const grid = document.getElementById('courses-grid');
+  grid.innerHTML = COURSES.map(c => {
+    const pct = coursePct(c);
+    const isComplete = pct === 100;
+    return `<div class="course-card" tabindex="0" role="button" id="card-${c.id}" onclick="openCourse('${c.id}')">
+      <div class="cc-banner" style="background:${c.banner}">
+        <div class="cc-icon">${c.icon}</div>
+        <div class="cc-prog-ring" id="ring-${c.id}">${pct}%</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-title">${c.title}</div>
+        <div class="cc-sub">${c.sub}</div>
+        <div class="cc-meta">
+          ${c.tags.map(t=>`<span class="cc-tag ${t.cls}">${t.text}</span>`).join('')}
+        </div>
+      </div>
+      <div class="cc-footer">
+        <div class="cc-prog-bar-wrap">
+          <div class="cc-prog-label">${pct}% complete · ${c.videos.length} videos</div>
+          <div class="cc-prog-track">
+            <div class="cc-prog-fill" id="cpf-${c.id}" style="width:${pct}%;background:${c.barCls==='b'?'var(--blue)':'var(--orange)'}"></div>
+          </div>
+        </div>
+        <div class="cc-btn${isComplete?' complete':''}" id="cbtn-${c.id}">
+          ${pct===0?'Start':isComplete?'Review':'Continue'}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterCourses(query) {
+  const q = query.toLowerCase().trim();
+  COURSES.forEach(c => {
+    const card = document.getElementById('card-' + c.id);
+    const roleOk  = curRole === 'all' || c.forRoles.includes(curRole);
+    const queryOk = !q || c.title.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q);
+    card.classList.toggle('filtered-out', !(roleOk && queryOk));
+  });
+}
+
+/* ── OPEN COURSE PAGE ───────────────────────────────────────── */
+function openCourse(cid) {
+  curCourse = COURSES.find(c => c.id === cid);
+  if (!curCourse) return;
+
+  // Populate header
+  document.getElementById('ch-eyebrow').textContent = 'Course Module';
+  document.getElementById('ch-title').textContent   = decodeEntities(curCourse.title);
+  document.getElementById('ch-sub').textContent     = decodeEntities(curCourse.sub);
+  document.getElementById('ch-tags').innerHTML      = curCourse.tags
+    .map(t => `<span class="ch-tag" style="color:${t.cls==='b'?'var(--blue)':t.cls==='o'?'var(--orange)':'var(--green)'};border-color:${t.cls==='b'?'var(--blue-l)':t.cls==='o'?'var(--orange-l)':'var(--green-l)'}">${t.text}</span>`).join('');
+
+  // Build video list
+  renderVideoList();
+  updateCourseProg();
+
+  // Switch pages
+  document.getElementById('page-home').classList.remove('active');
+  document.getElementById('page-course').classList.add('active');
+  document.getElementById('topbar-back').classList.remove('hidden');
+  document.getElementById('topbar-label').textContent = decodeEntities(curCourse.title);
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  document.getElementById('page-course').classList.remove('active');
+  document.getElementById('page-home').classList.add('active');
+  document.getElementById('topbar-back').classList.add('hidden');
+  document.getElementById('topbar-label').textContent = 'Training Portal';
+  buildCourseCards();
+  updateAll();
+  window.scrollTo(0, 0);
+}
+
+/* ── RENDER VIDEO LIST (course page) ────────────────────────── */
+function renderVideoList() {
+  const list = document.getElementById('video-list');
+  list.innerHTML = curCourse.videos.map((v, idx) => {
+    const isDone = done(v.id);
+     const watched = watchStats[v.id] || 0;
+    const durSec = videoDurations[v.id] || 0;
+    const watchPct = durSec > 0 ? Math.min(100, Math.round((watched / durSec) * 100)) : 0;
+    const durText = durSec > 0 ? fmtTime(durSec) : v.dur;
+    return `<div class="vcard${isDone?' done-card':''}" tabindex="0" role="button" onclick="openModal(${idx})">
+    
+      <div class="vcard-thumb">
+        <div class="vcard-num">${v.n}</div>
+        <div class="vcard-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="white"/></svg>
+        </div>
+        <div class="vcard-badge ${isDone?'done':v.ready?'ready':'ph'}">
+          ${isDone?'✓ Done':v.ready?'▶ Ready':'Placeholder'}
+        </div>
+      </div>
+      <div class="vcard-body">
+        <div class="vcard-title">${v.title}</div>
+        <div class="vcard-desc">${v.desc}</div>
+        <div class="vcard-meta">
+           <span class="vcard-dur">⏱ ${durText}</span>
+          <span class="vcard-dur">📈 ${watchPct}% watched</span>
+          <span class="vcard-level ${v.lvl}">${v.lvl}</span>
+          ${!v.ready && !isDone ? '<span class="ph-tag">placeholder</span>' : ''}
+        </div>
+      </div>
+      <div class="vcard-check${isDone?' done':''}" onclick="toggleCheck(event,'${v.id}')">
+        ${isDone?'✓':''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── TOGGLE DONE (card check button) ────────────────────────── */
+function toggleCheck(e, id) {
+  e.stopPropagation();
+  completed = done(id) ? completed.filter(x => x !== id) : [...completed, id];
+  if (done(id)) toast('✓ Marked as complete');
+  save();
+  renderVideoList();
+  updateCourseProg();
+  if (curModalIdx >= 0 && curCourse?.videos[curModalIdx]?.id === id) syncMark();
+}
+
+/* ── PROGRESS HELPERS ───────────────────────────────────────── */
+function coursePct(c) {
+  const ids = c.videos.map(v => v.id);
+  return ids.length ? Math.round(completed.filter(x => ids.includes(x)).length / ids.length * 100) : 0;
+}
+
+function updateCourseProg() {
+  if (!curCourse) return;
+  const pct = coursePct(curCourse);
+  document.getElementById('cpw-pct').textContent = pct + '%';
+  document.getElementById('cpw-fill').style.width = pct + '%';
+}
+
+function updateAll() {
+  const ids  = allIds();
+  const tot  = ids.length;
+  const done2 = completed.filter(x => ids.includes(x)).length;
+  const pct  = tot ? Math.round(done2 / tot * 100) : 0;
+
+  document.getElementById('overall-pct').textContent = pct + '%';
+  document.getElementById('overall-fill').style.width = pct + '%';
+  document.getElementById('nav-pct').textContent = pct + '%';
+  document.getElementById('nav-fill').style.width = pct + '%';
+
+  // Module chips
+  const colors = ['b','o','b','b','o','b','o','b','o'];
+  document.getElementById('mod-chips').innerHTML = COURSES.map((c, i) => {
+    const cp = coursePct(c);
+    const short = c.title.replace('Zoho ','').split('—')[0].trim().split(' ').slice(0,3).join(' ');
+    return `<div class="mod-chip">
+      <div class="mc-name">${short}</div>
+      <div class="mc-bar"><div class="mc-fill ${colors[i]}" style="width:${cp}%"></div></div>
+      <div class="mc-pct">${cp}%</div>
+    </div>`;
+  }).join('');
+}
+
+function resetAll() {
+  if (confirm('Reset all progress across all courses? This cannot be undone.')) {
+    completed = []; watchStats = {}; videoDurations = {}; save(); saveWatchStats(); saveVideoDurations(); buildCourseCards(); updateAll();
+    toast('All progress has been reset.');
+  }
+}
+
+/* ── MODAL ──────────────────────────────────────────────────── */
+function openModal(idx) {
+  curModalIdx = idx;
+  paintModal(idx);
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function paintModal(idx) {
+  const v   = curCourse.videos[idx];
+  curModalIdx = idx;
+
+  document.getElementById('m-eye').textContent   = curCourse.title;
+  document.getElementById('m-title').textContent = v.title;
+  document.getElementById('m-desc').textContent  = v.desc;
+
+  document.getElementById('m-player').innerHTML = v.url
+      ? (v.url.toLowerCase().endsWith('.mp4')
+      ? `<div><video id="training-video" controls playsinline preload="metadata" style="width:100%;height:100%;border:0;">
+          <source src="${v.url}" type="video/mp4">
+         </video>
+         <div style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--border);">
+           <div id="video-watch-status" style="font-size:12px;color:var(--ink3);font-weight:700;">Watched: 0% · Duration: --</div>
+           <a href="${v.url}" download class="btn-nav" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;width:auto;padding:0 12px;">⬇ Download</a>
+         </div></div>`
+      : `<iframe src="${v.url}" allowfullscreen allow="autoplay;fullscreen;encrypted-media"></iframe>`)
+    : `<div class="coming-soon">
+        <div class="cs-icon">🎬</div>
+        <div class="cs-title">Video Coming Soon</div>
+        <div class="cs-sub">This Camtasia recording is being prepared. Upload the finished video to Google Storage and update the url field to replace this screen.</div>
+      </div>`;
+const vid = document.getElementById('training-video');
+  if (vid) {
+    const id = v.id;
+    const statusEl = document.getElementById('video-watch-status');
+    const updateStatus = () => {
+      const dur = Number.isFinite(vid.duration) ? vid.duration : (videoDurations[id] || 0);
+      const watched = watchStats[id] || 0;
+      const pct = dur > 0 ? Math.min(100, Math.round((watched / dur) * 100)) : 0;
+      statusEl.textContent = `Watched: ${pct}% · Duration: ${fmtTime(dur)}`;
+    };
+    vid.addEventListener('loadedmetadata', () => {
+      if (Number.isFinite(vid.duration) && vid.duration > 0) {
+        videoDurations[id] = Math.round(vid.duration);
+        saveVideoDurations();
+      }
+      updateStatus();
+      renderVideoList();
+    });
+    vid.addEventListener('timeupdate', () => {
+      const t = Math.floor(vid.currentTime || 0);
+      if ((watchStats[id] || 0) < t) {
+        watchStats[id] = t;
+        saveWatchStats();
+        updateStatus();
+      }
+    });
+    updateStatus();
+  }
+  syncMark();
+  document.getElementById('m-prev').disabled = idx === 0;
+  document.getElementById('m-next').disabled = idx === curCourse.videos.length - 1;
+}
+
+function navModal(d) {
+  const ni = curModalIdx + d;
+  if (ni >= 0 && ni < curCourse.videos.length) paintModal(ni);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('m-player').innerHTML = '';
+  document.body.style.overflow = '';
+  curModalIdx = -1;
+}
+
+function closeBg(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const target = e.target;
+  if (target.classList?.contains('course-card') || target.classList?.contains('vcard')) {
+    e.preventDefault();
+    target.click();
+  }
+});
+
+function markModal() {
+  const id = curCourse?.videos[curModalIdx]?.id;
+  if (!id) return;
+  completed = done(id) ? completed.filter(x => x !== id) : [...completed, id];
+  if (done(id)) toast('✓ Marked as complete');
+  save();
+  renderVideoList();
+  updateCourseProg();
+  syncMark();
+}
+
+function syncMark() {
+  const id  = curCourse?.videos[curModalIdx]?.id;
+  const btn = document.getElementById('m-mark');
+  if (done(id)) { btn.textContent = '✓ Completed'; btn.className = 'btn-mark done'; }
+  else           { btn.textContent = '✓ Mark as Complete'; btn.className = 'btn-mark undone'; }
+}
+
+/* ── TOAST ──────────────────────────────────────────────────── */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
